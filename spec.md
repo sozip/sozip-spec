@@ -481,10 +481,6 @@ to reuse and adapt without any constaint).
         zStream.avail_out = static_cast<uInt>(compressed_data.size());
         zStream.next_out = &compressed_data[0];
 
-        // Update crc32 of uncompressed data
-        crc32Val = crc32(crc32Val, &uncompressed_data[0],
-                         static_cast<uInt>(uncompressed_data.size()));
-
         if (uncompressed_data.size() < chunk_size)
         {
             ret = deflate(&zStream, Z_FINISH);
@@ -501,6 +497,10 @@ to reuse and adapt without any constaint).
         // Write output buffer
         compressed_data.resize(compressed_data.size() - zStream.avail_out);
         write(compressed_file_handle, compressed_data);
+
+        // Update crc32 of uncompressed data
+        crc32Val = crc32(crc32Val, &uncompressed_data[0],
+                         static_cast<uInt>(uncompressed_data.size()));
 
         // Exit loop if no more input data
         if (uncompressed_data.size() < chunk_size)
