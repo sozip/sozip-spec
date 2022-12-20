@@ -263,7 +263,7 @@ Examples:
 
 The [sozip](https://github.com/rouault/mapserver/tree/sozip) development branch
 of [MapServer](https://mapserver.org), when built against a SOZip-capable GDAL,
-can generate SOZip-enable output files if the mapfile has a ZIP output format,
+can generate SOZip-enabled output files if the mapfile has a ZIP output format,
 such as:
 
 ```
