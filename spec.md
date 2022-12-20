@@ -259,6 +259,24 @@ Examples:
   docker run --rm -it -v $PWD:$PWD rouault/sozip sozip --validate $PWD/my.zip
   ```
 
+## MapServer
+
+The [sozip](https://github.com/rouault/mapserver/tree/sozip) development branch
+of [MapServer](https://mapserver.org), when built against a SOZip-capable GDAL,
+can generate SOZip-enable output files if the mapfile has a ZIP output format,
+such as:
+
+```
+    OUTPUTFORMAT
+      NAME "OGRGPKGZIP"
+      DRIVER "OGR/GPKG"
+      MIMETYPE "application/zip; driver=ogr/gpkg"
+      FORMATOPTION "STORAGE=memory"
+      FORMATOPTION "FORM=zip"
+      FORMATOPTION "FILENAME=result.gpkg.zip"
+    END
+```
+
 # Annex B: Adopters
 
 (Put here a list of organizations, in particular data producers, that have
