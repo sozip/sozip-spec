@@ -230,6 +230,9 @@ of [GDAL](https://gdal.org) contains:
   existing ZIP file, list the contents of a ZIP file and display the SOZip
   optimization status or validate a SOZip file.
 
+* Updated Shapefile and GeoPackage drivers that can directly generate SOZip-enabled
+  .shz/.shp.zip or .gpkg.zip files.
+
 This development branch is available in the ``rouault/sozip`` Docker image.
 
 When using [QGIS](https://qgis.org) built against this branch, it is possible to
