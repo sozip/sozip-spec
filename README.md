@@ -3,6 +3,8 @@
 This repository contains the [specification](spec.md) for the SOZip
 (Seek-Optimized Zip) profile to the ZIP file format.
 
+![Logo](logo.png)
+
 # What is SOZip ?
 
 A Seek-Optimized ZIP file (SOZip) is a [ZIP](https://en.wikipedia.org/wiki/ZIP_(file_format)) file
