@@ -422,6 +422,7 @@ to reuse and adapt without any constaint).
     const uint64_t start_offset = tell_position(compressed_file_handle);
 
     bool first_block = true;
+    uint32_t crc32Val = 0;
     while (true)
     {
         if (!first_block)
@@ -442,10 +443,14 @@ to reuse and adapt without any constaint).
                                              uncompressed_data.size() / 10 + 16);
 
         // Compress data
-        zStream.avail_in = uncompressed_data.size();
+        zStream.avail_in = static_cast<uInt>(uncompressed_data.size());
         zStream.next_in = &uncompressed_data[0];
-        zStream.avail_out = compressed_data.size();
+        zStream.avail_out = static_cast<uInt>(compressed_data.size());
         zStream.next_out = &compressed_data[0];
+
+        // Update crc32 of uncompressed data
+        crc32Val = crc32(crc32Val, &uncompressed_data[0],
+                         static_cast<uInt>(uncompressed_data.size()));
 
         if (uncompressed_data.size() < chunk_size)
         {
@@ -470,6 +475,8 @@ to reuse and adapt without any constaint).
             break;
         }
     }
+
+    // TODO: store crc32Val in local and central header records
 
     // Cleanup
     deflateEnd(&zStream);
