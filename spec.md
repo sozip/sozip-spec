@@ -253,6 +253,12 @@ Examples:
   docker run --rm -it -v $PWD:$PWD rouault/sozip sozip -l $PWD/in.zip
   ```
 
+* Validate a SOZip file:
+
+  ```shell
+  docker run --rm -it -v $PWD:$PWD rouault/sozip sozip --validate $PWD/my.zip
+  ```
+
 # Annex B: Adopters
 
 (Put here a list of organizations, in particular data producers, that have
