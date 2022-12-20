@@ -103,8 +103,8 @@ The index file MUST be stored as a uncompressed file.
 The index file name MUST be :
 - "${path_to_filename}/.${filename}.sozip.idx" where ${path_to_filename} is the name
   of the directory if ${filename} contains directory paths.
-  For example "my_dir/.rivers.gpkg.sozip.idx" if the filename to compress is
-  "my_dir/rivers.gpkg.sozip.idx"
+  For example "my_dir/.rivers.gpkg.sozip.idx" if the filename stored in the
+  archive is "my_dir/rivers.gpkg.sozip.idx"
 - or ".${filename}.sozip.idx" if there is no directory path in the filename.
   For example ".rivers.gpkg.sozip.idx"
 
