@@ -277,6 +277,12 @@ such as:
     END
 ```
 
+## QGIS
+
+[QGIS](https://qgis.org) can read efficiently SOZip files when built against a
+SOZip-capable GDAL.
+
+
 # Annex B: Adopters
 
 (Put here a list of organizations, in particular data producers, that have
