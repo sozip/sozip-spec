@@ -19,7 +19,15 @@ SOZip is *not* a new file format, but a profile of the existing ZIP format,
 done in a fully backward compatible way. ZIP readers that are non-SOZip aware
 should be able to read a SOZip-enabled file, ignoring the extended features.
 
-# Examples
+# Software implementations
+
+- C/C++ [GDAL](https://gdal.org)
+- Python [sozipfile](https://github.com/sozip/sozipfile)
+
+See [Annex A: Software implementations](https://github.com/sozip/sozip-spec/blob/master/spec.md#annex-a-software-implementations)
+for more details.
+
+# Examples of SOZip files
 
 Examples of SOZip-enabled files can be found in the
 [sozip-examples](https://github.com/sozip/sozip-examples) repository.
