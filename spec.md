@@ -119,7 +119,7 @@ file name extension.
 
 That local file header MUST be put immediately placed after the compressed file.
 
-That file MUST not be listed as a central file header, to remain invisible.
+That file MUST NOT be listed as a central file header, to remain invisible.
 
 ### Content of the index file
 
