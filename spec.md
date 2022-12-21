@@ -235,10 +235,6 @@ of [GDAL](https://gdal.org) contains:
 
 This development branch is available in the ``rouault/sozip`` Docker image.
 
-When using [QGIS](https://qgis.org) built against this branch, it is possible to
-directly use big compressed files within a ZIP, thanks to QGIS support for the
-``/vsizip/`` subsystem.
-
 Examples:
 
 * Create a new ZIP file with an input file called in.gpkg:
@@ -286,7 +282,7 @@ such as:
 ## QGIS (Geographic Information System desktop and server application, using GDAL)
 
 [QGIS](https://qgis.org) can read efficiently SOZip files when built against a
-SOZip-capable GDAL.
+SOZip-capable GDAL, through the use of GDAL ``/vsizip/`` virtual file system.
 
 
 # Annex B: Adopters
