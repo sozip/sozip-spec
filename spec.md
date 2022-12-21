@@ -212,7 +212,7 @@ under the terms that their author may see fit.
 
 # Annex A: Software implementations
 
-## GDAL
+## GDAL (C/C++ library)
 
 The [sozip](https://github.com/rouault/gdal/tree/sozip) development branch
 of [GDAL](https://gdal.org) contains:
@@ -259,7 +259,13 @@ Examples:
   docker run --rm -it -v $PWD:$PWD rouault/sozip sozip --validate $PWD/my.zip
   ```
 
-## MapServer
+## sozipfile (Python module)
+
+[sozipfile](https://github.com/sozip/sozipfile) is a fork of Python
+[zipfile](https://docs.python.org/3/library/zipfile.html) module, which
+implements the SOZip implementation in the ZIP writer.
+
+## MapServer (Web mapping server written in C/C++, using GDAL)
 
 The [sozip](https://github.com/rouault/mapserver/tree/sozip) development branch
 of [MapServer](https://mapserver.org), when built against a SOZip-capable GDAL,
@@ -277,7 +283,7 @@ such as:
     END
 ```
 
-## QGIS
+## QGIS (Geographic Information System desktop and server application, using GDAL)
 
 [QGIS](https://qgis.org) can read efficiently SOZip files when built against a
 SOZip-capable GDAL.
