@@ -243,6 +243,13 @@ Examples:
   docker run --rm -it -v $PWD:$PWD rouault/sozip sozip -j $PWD/out.zip $PWD/in.gpkg
   ```
 
+* Create a SOZip-optimized zip file called out.zip from an existing ZIP file
+  called in.zip.
+
+  ```shell
+  docker run --rm -it -v $PWD:$PWD rouault/sozip sozip --convert-from=$PWD/in.zip $PWD/out.zip
+  ```
+
 * List the content of a ZIP file and check if files in it are SOZip-optimized:
 
   ```shell
