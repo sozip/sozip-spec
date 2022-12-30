@@ -401,6 +401,8 @@ Compatible readers:
 
 * ``WinZip`` graphical interface.
 
+* ``WinRAR`` graphical interface.
+
 * Windows Explorer default ZIP reader.
 
 * MacOSX default ZIP extractor.
