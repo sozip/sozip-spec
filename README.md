@@ -31,3 +31,10 @@ for more details.
 
 Examples of SOZip-enabled files can be found in the
 [sozip-examples](https://github.com/sozip/sozip-examples) repository.
+
+<!---
+# Adopters
+
+(Put here a list of organizations, in particular data producers, that have
+adopted SOZip)
+-->

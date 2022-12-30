@@ -92,7 +92,7 @@ data) of each chunk, except for the initial chunk size whose offset is zero.
 
 Note: a pseudo-code (among many possible variations) written in C++, using
 zlib and assuming offset_size == 8 (cf later paragraph), can be found in
-[Annex F](#annex-f-pseudo-code-for-sozip-deflate-stream-generation)
+[Annex E](#annex-e-pseudo-code-for-sozip-deflate-stream-generation)
 
 ## Hidden index file
 
@@ -292,13 +292,7 @@ such as:
 SOZip-capable GDAL, through the use of GDAL ``/vsizip/`` virtual file system.
 
 
-# Annex B: Adopters
-
-(Put here a list of organizations, in particular data producers, that have
-adopted SOZip)
-
-
-# Annex C: Advantages and limitations
+# Annex B: Advantages and limitations
 
 ## Advantages
 
@@ -327,7 +321,7 @@ adopted SOZip)
   or appending the updated version of the modified file at the end of the ZIP
   (with modification of the corresponding central header record).
 
-# Annex D: Discussion about design choices
+# Annex C: Discussion about design choices
 
 * Why use the Deflate compression and not an alternative compression method ?
 
@@ -383,7 +377,7 @@ adopted SOZip)
   64 GB compressed file.
 
 
-# Annex E: Compatibility with existing ZIP implementations
+# Annex D: Compatibility with existing ZIP implementations
 
 SOZip-enabled files have been tested with the following ZIP capable utilities
 to check the backward compatibility (non exhaustive list!):
@@ -443,7 +437,7 @@ Compatible writers:
 However a number of writers, while attempting to "append" to a SOZip-enabled file,
 actually create a new file from scratch, and will loose the hidden index.
 
-# Annex F: Pseudo-code for SOZip Deflate stream generation
+# Annex E: Pseudo-code for SOZip Deflate stream generation
 
 Licensed under public domain or MIT at the choice of the user (that is feel free
 to reuse and adapt without any constaint).
@@ -524,7 +518,7 @@ to reuse and adapt without any constaint).
     deflateEnd(&zStream);
 ```
 
-# Annex G: commented dump of a dummy SOZip file
+# Annex F: commented dump of a dummy SOZip file
 
 The following invokation of GDAL's sozip utility generates a rather dummy
 SOZip enabled file that contains a tiny file "foo" with "foo" as content,
@@ -620,7 +614,7 @@ sozip --overwrite --enable-sozip=yes --sozip-chunk-size=2 foo.zip foo
 |  198   | uint16 | 0                        | .ZIP file comment length |
 
 
-# Annex H: Examples
+# Annex G: Examples
 
 Examples of SOZip-enabled files can be found in the
 [sozip-examples](https://github.com/sozip/sozip-examples) repository.
