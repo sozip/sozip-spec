@@ -3,7 +3,7 @@
 This repository contains the [specification](spec.md) for the SOZip
 (Seek-Optimized Zip) profile to the ZIP file format.
 
-![Logo](logo.png)
+![Logo](images/logo.png)
 
 # What is SOZip ?
 
@@ -31,6 +31,11 @@ for more details.
 
 Examples of SOZip-enabled files can be found in the
 [sozip-examples](https://github.com/sozip/sozip-examples) repository.
+
+# Social media
+
+Find me on [![Twitter](images/32px-Twitter-logo.svg.png)](https://twitter.com/sozipOrg) and
+[![Mastodon](images/Mastodon_Logotype_(Simple).png)](https://fosstodon.org/@sozip)
 
 <!---
 # Adopters
