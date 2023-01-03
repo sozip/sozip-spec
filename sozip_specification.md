@@ -542,7 +542,12 @@ to reuse and adapt without any constaint).
     deflateEnd(&zStream);
 ```
 
-# Annex F: commented dump of a dummy SOZip file
+# Annex F: Examples
+
+Examples of SOZip-enabled files can be found in the
+[sozip-examples](https://github.com/sozip/sozip-examples) repository.
+
+# Annex G: commented dump of a dummy SOZip file
 
 The following invokation of GDAL's sozip utility generates a dummy
 SOZip enabled file that contains a tiny file "foo" with "foo" as content,
@@ -713,8 +718,3 @@ WARNINGS
 
 Done
 ```
-
-# Annex G: Examples
-
-Examples of SOZip-enabled files can be found in the
-[sozip-examples](https://github.com/sozip/sozip-examples) repository.
