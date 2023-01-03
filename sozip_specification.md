@@ -219,6 +219,11 @@ of [GDAL](https://gdal.org) contains:
 * a ``CPLAddFileInZip()`` C function that can compress a file and add it to an
   new or existing ZIP file, and enable the SOZip optimization when relevant.
 
+* an implementation of the
+  [VSIGetFileMetadata()](https://gdal.org/api/cpl.html#_CPPv418VSIGetFileMetadataPKcPKc12CSLConstList)
+  method that can be used on a filename of the form "/vsizip//path/to/my.zip/filename/inside" and with
+  domain = "ZIP" to get information if a SOZip index is available for that file.
+
 * a modified [/vsizip/](https://gdal.org/user/virtual_file_systems.html#vsizip-zip-archives)
   virtual file system that can use the SOZip optimization to perform fast random
   access to a compressed file within a ZIP.
