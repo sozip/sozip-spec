@@ -1,3 +1,13 @@
+# License
+
+This specification document is (C) 2022 Even Rouault and licensed under the
+[CC-BY](https://spdx.org/licenses/CC-BY-4.0.html) 4.0 terms.
+![CC-BY](https://licensebuttons.net/l/by/4.0/88x31.png)
+
+Note: the scope of the copyrighted material does, of course, not extend onto
+any source or binary code derived from the specification, that may be licensed
+under the terms that their author may see fit.
+
 # What is SOZip ?
 
 A Seek-Optimized ZIP file (SOZip) is a [ZIP](https://en.wikipedia.org/wiki/ZIP_(file_format)) file
@@ -40,7 +50,7 @@ The SOZip optimization relies on two independant and combined mechanisms:
   still be a fully single legit compressed stream for the whole file.
   That chunking relies on the block flush mechanisms of the ZLib library, which is
   typically used by the [pigz](https://zlib.net/pigz/pigz.pdf) utility with its
-  *--independant* option. Those block flushs are done at a regular interval of
+  *--independant* option. Those block flushes are done at a regular interval of
   the input uncompressed stream. In the rest of this document, this interval is
   called chunk size. A typical value for it is 32 kilobytes.
 
@@ -200,16 +210,6 @@ MUST be in strictly ascending order, and MUST be stricly lower than
 
 - [DEFLATE Compressed Data Format Specification version 1.3](https://www.ietf.org/rfc/rfc1951.txt)
 
-# License
-
-This specification document is (C) 2022 Even Rouault and licensed under the
-[CC-BY](http://creativecommons.org/licenses/by/4.0) 4.0 terms.
-![CC-BY](https://licensebuttons.net/l/by/4.0/88x31.png)
-
-Note: the scope of the copyrighted material does, of course, not extend onto
-any source or binary code derived from the specification, that may be licensed
-under the terms that their author may see fit. 
-
 # Annex A: Software implementations
 
 ## GDAL (C/C++ library)
@@ -301,7 +301,7 @@ SOZip-capable GDAL, through the use of GDAL ``/vsizip/`` virtual file system.
 
 * SOZip allows multithreaded decompression of independant chunks.
 
-* For decompression, SOZip allows to use faster alternatives to zlib, such as
+* For decompression, faster alternatives to zlib can be used, such as
   [libdeflate](https://github.com/ebiggers/libdeflate). This is for example used
   in the GDAL implementation.
 
@@ -313,11 +313,11 @@ SOZip-capable GDAL, through the use of GDAL ``/vsizip/`` virtual file system.
 ## Limitations
 
 * Compression efficiency is reduced by the flushes done to isolate chunks.
-  The larger the chunk size, the most efficient the compression, but
-  the less efficient random seeking.
+  The larger the chunk size, the more efficient the compression, but
+  random seeking will be less efficient due to more data being decompressed.
 
 * SOZip inherits all the limitations of the base ZIP format: in particular
-  update in place of a SOZip optimized file requires rewriting the whole ZIP,
+  update in place of a SOZip optimized file requires rewriting the entire ZIP,
   or appending the updated version of the modified file at the end of the ZIP
   (with modification of the corresponding central header record).
 
@@ -452,7 +452,8 @@ actually create a new file from scratch, and will loose the hidden index.
 
 # Annex E: Pseudo-code for SOZip Deflate stream generation
 
-Licensed under public domain or MIT at the choice of the user (that is feel free
+Licensed under [CC0](https://spdx.org/licenses/CC0-1.0.html) or
+[MIT](https://spdx.org/licenses/MIT.html) at the choice of the user (that is feel free
 to reuse and adapt without any constaint).
 
 ```c++
@@ -465,7 +466,7 @@ to reuse and adapt without any constaint).
                            Z_DEFAULT_STRATEGY);
     // TODO: add error checking
 
-    // Noe: for a file whose compressed size does not exceed 4 GB, this could be
+    // Note: for a file whose compressed size does not exceed 4 GB, this could be
     // a vector of uint32_t values.
     std::vector<uint64_t> offsets;
     const uint64_t start_offset = tell_position(compressed_file_handle);
@@ -486,7 +487,7 @@ to reuse and adapt without any constaint).
         // Acquire input data, up to chunk_size bytes
         std::vector<uint8_t> uncompressed_data = read(uncompressed_stream, chunk_size);
 
-        // Prepare output buffer (with security marging for very small chunks,
+        // Prepare output buffer (with security margin for very small chunks,
         // or chunks that compresses poorly)
         std::vector<uint8_t> compressed_data(uncompressed_data.size() +
                                              uncompressed_data.size() / 10 + 16);
@@ -533,7 +534,7 @@ to reuse and adapt without any constaint).
 
 # Annex F: commented dump of a dummy SOZip file
 
-The following invokation of GDAL's sozip utility generates a rather dummy
+The following invokation of GDAL's sozip utility generates a dummy
 SOZip enabled file that contains a tiny file "foo" with "foo" as content,
 and using a chunk size of 2 bytes.
 
