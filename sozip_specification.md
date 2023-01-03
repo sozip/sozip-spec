@@ -5,7 +5,7 @@ This specification document is (C) 2022-2023 Even Rouault and licensed under the
 
 Note: the scope of the copyrighted material does, of course, not extend onto
 any source or binary code derived from the specification, that may be licensed
-under the terms that their author may see fit.
+under the terms that their author sees fit.
 
 # What is SOZip ?
 
