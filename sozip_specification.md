@@ -323,7 +323,8 @@ SOZip-capable GDAL, through the use of GDAL ``/vsizip/`` virtual file system.
 * SOZip inherits all the limitations of the base ZIP format: in particular
   update in place of a SOZip optimized file requires rewriting the entire ZIP,
   or appending the updated version of the modified file at the end of the ZIP
-  (with modification of the corresponding central header record).
+  (with rewriting of the central header records and end of central directory
+  record).
 
 # Annex C: Discussion about design choices
 
