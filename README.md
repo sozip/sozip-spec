@@ -1,6 +1,6 @@
 # Introduction
 
-This repository contains the [specification](spec.md) for the SOZip
+This repository contains the [specification](sozip_specification.md) for the SOZip
 (Seek-Optimized Zip) profile to the ZIP file format.
 
 ![Logo](images/logo.png)
@@ -24,7 +24,7 @@ should be able to read a SOZip-enabled file, ignoring the extended features.
 - C/C++ [GDAL](https://gdal.org)
 - Python [sozipfile](https://github.com/sozip/sozipfile)
 
-See [Annex A: Software implementations](https://github.com/sozip/sozip-spec/blob/master/spec.md#annex-a-software-implementations)
+See [Annex A: Software implementations](https://github.com/sozip/sozip-spec/blob/master/sozip_specification.md#annex-a-software-implementations)
 for more details.
 
 # Examples of SOZip files
