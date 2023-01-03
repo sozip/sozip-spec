@@ -429,6 +429,16 @@ Compatible readers:
   verions will ignore it.)
 
 
+Incompatible readers:
+
+* [zipdetails](https://perldoc.perl.org/zipdetails) is, at time of writing, the
+  only zip reader that will error out on SOZip files. It rejects them
+  because the Local header record of a .sozip.idx file has no matching
+  Central header record. The way zipdetails operate, reading records from the
+  beginning of the ZIP, rather than starting from the End of central directory,
+  is not representative of regular ZIP readers.
+
+
 Compatible writers:
 
 * Info-ZIP [zip](https://infozip.sourceforge.net/Zip.html) command line utility,
