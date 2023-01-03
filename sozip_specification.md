@@ -430,14 +430,13 @@ Compatible readers:
   verions will ignore it.)
 
 
-Incompatible readers:
+Partially compatible readers:
 
-* [zipdetails](https://perldoc.perl.org/zipdetails) is, at time of writing, the
-  only known zip reader that will error out on SOZip files. It rejects them
-  because the Local header record of a .sozip.idx file has no matching
-  Central header record. The way zipdetails operate, reading records from the
-  beginning of the ZIP, rather than starting from the End of central directory,
-  is not representative of regular ZIP readers.
+* [zipdetails](https://perldoc.perl.org/zipdetails) requires the use of its
+  [main](https://github.com/pmqs/zipdetails) branch, or a version greater than
+  2.108. Currently released versions (2.108 or earlier) will error out on SOZip
+  files, rejecting them because the Local header record of a .sozip.idx file has
+  no matching Central header record.
 
 
 Compatible writers:
@@ -638,6 +637,82 @@ sozip --overwrite --enable-sozip=yes --sozip-chunk-size=2 foo.zip foo
 |  194   | uint32 | 129                      | offset of start of central directory with<br>respect to the starting disk number |
 |  198   | uint16 | 0                        | .ZIP file comment length |
 
+
+Output of "zipdetails foo.zip" (using main branch of https://github.com/pmqs/zipdetails):
+
+```
+0000 LOCAL HEADER #1       04034B50
+0004 Extract Zip Spec      14 '2.0'
+0005 Extract OS            00 'MS-DOS'
+0006 General Purpose Flag  0000
+     [Bits 1-2]            0 'Normal Compression'
+0008 Compression Method    0008 'Deflated'
+000A Last Mod Time         559F56D1 'Sat Dec 31 11:54:34 2022'
+000E CRC                   8C736521
+0012 Compressed Length     00000010
+0016 Uncompressed Length   00000003
+001A Filename Length       0003
+001C Extra Length          0000
+001E Filename              'foo'
+0021 PAYLOAD               J...............
+
+0031 LOCAL HEADER #2       04034B50
+     Orphan Entry: No
+     matching central
+     directory
+0035 Extract Zip Spec      14 '2.0'
+0036 Extract OS            00 'MS-DOS'
+0037 General Purpose Flag  0000
+0039 Compression Method    0000 'Stored'
+003B Last Mod Time         559F56D1 'Sat Dec 31 11:54:34 2022'
+003F CRC                   C4707ACE
+0043 Compressed Length     00000024
+0047 Uncompressed Length   00000024
+004B Filename Length       000E
+004D Extra Length          0000
+004F Filename              '.foo.sozip.idx'
+
+WARNING!
+Expected Zip header not found at offset 0x5D
+Skipping 0x20 bytes to Central Directory...
+
+0081 CENTRAL HEADER #1     02014B50
+0085 Created Zip Spec      00 '0.0'
+0086 Created OS            00 'MS-DOS'
+0087 Extract Zip Spec      14 '2.0'
+0088 Extract OS            00 'MS-DOS'
+0089 General Purpose Flag  0000
+     [Bits 1-2]            0 'Normal Compression'
+008B Compression Method    0008 'Deflated'
+008D Last Mod Time         559F56D1 'Sat Dec 31 11:54:34 2022'
+0091 CRC                   8C736521
+0095 Compressed Length     00000010
+0099 Uncompressed Length   00000003
+009D Filename Length       0003
+009F Extra Length          0000
+00A1 Comment Length        0000
+00A3 Disk Start            0000
+00A5 Int File Attributes   0000
+     [Bit 0]               0 'Binary Data'
+00A7 Ext File Attributes   00000000
+00AB Local Header Offset   00000000
+00AF Filename              'foo'
+
+00B2 END CENTRAL HEADER    06054B50
+00B6 Number of this disk   0000
+00B8 Central Dir Disk no   0000
+00BA Entries in this disk  0001
+00BC Total Entries         0001
+00BE Size of Central Dir   00000031
+00C2 Offset to Central Dir 00000081
+00C6 Comment Length        0000
+
+WARNINGS
+
+* Expected Zip header not found at offset 0x61, skipped 0x20 bytes
+
+Done
+```
 
 # Annex G: Examples
 
