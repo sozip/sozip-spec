@@ -1,8 +1,7 @@
 # License
 
-This specification document is (C) 2022 Even Rouault and licensed under the
-[CC-BY](https://spdx.org/licenses/CC-BY-4.0.html) 4.0 terms.
-![CC-BY](https://licensebuttons.net/l/by/4.0/88x31.png)
+This specification document is (C) 2022-2023 Even Rouault and licensed under the
+[CC-BY-4.0](https://spdx.org/licenses/CC-BY-4.0.html) terms.
 
 Note: the scope of the copyrighted material does, of course, not extend onto
 any source or binary code derived from the specification, that may be licensed
