@@ -270,7 +270,8 @@ Examples:
 
 [sozipfile](https://github.com/sozip/sozipfile) is a fork of Python
 [zipfile](https://docs.python.org/3/library/zipfile.html) module, which
-implements the SOZip implementation in the ZIP writer.
+implements the SOZip implementation in the ZIP writer, and can be used to
+check if a file within a ZIP is SOZip-optimized.
 
 ## MapServer (Web mapping server written in C/C++, using GDAL)
 
