@@ -396,6 +396,8 @@ Compatible readers:
 
 * Info-ZIP [unzip](https://infozip.sourceforge.net/UnZip.html) command line utility.
 
+* [libzip](https://libzip.org/): C library for reading, creating, and modifying zip archives
+
 * ``7zip`` command line utility or graphical interface.
 
 * ``WinZip`` graphical interface.
@@ -431,7 +433,7 @@ Compatible readers:
 Incompatible readers:
 
 * [zipdetails](https://perldoc.perl.org/zipdetails) is, at time of writing, the
-  only zip reader that will error out on SOZip files. It rejects them
+  only known zip reader that will error out on SOZip files. It rejects them
   because the Local header record of a .sozip.idx file has no matching
   Central header record. The way zipdetails operate, reading records from the
   beginning of the ZIP, rather than starting from the End of central directory,
