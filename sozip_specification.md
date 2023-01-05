@@ -114,28 +114,28 @@ than the chunk size  (otherwise there is no point in doing the SOZip optimizatio
 
 ### Storage of the index file
 
-The index file MUST be stored as a uncompressed file.
+1. The index file MUST be stored as a uncompressed file.
 
-The index file name MUST be :
-- ``${path_to_filename}/.${filename}.sozip.idx`` where ``${path_to_filename}`` is the name
-  of the directory if ``${filename}`` contains directory paths.
-  For example ``my_dir/.rivers.gpkg.sozip.idx`` if the filename stored in the
-  archive is ``my_dir/rivers.gpkg.sozip.idx``
-- or ``.${filename}.sozip.idx`` if there is no directory path in the filename.
-  For example ``.rivers.gpkg.sozip.idx``
+2. The index file name MUST be :
+   - ``${path_to_filename}/.${filename}.sozip.idx`` where ``${path_to_filename}``
+     is the name of the directory if ``${filename}`` contains directory paths.
+     For example ``my_dir/.rivers.gpkg.sozip.idx`` if the filename stored in the
+     archive is ``my_dir/rivers.gpkg.sozip.idx``
+   - or ``.${filename}.sozip.idx`` if there is no directory path in the filename.
+     For example ``.rivers.gpkg.sozip.idx``
 
-Note the leading dot ('.') character preceding the index filename, to indicate
-its hidden status.
+   Note the leading dot ('.') character preceding the index filename, to indicate
+   its hidden status.
 
-The index file MUST be preceded by a ZIP local file header (cf paragraph 4.3.7
-of the [.ZIP File Format Specification](https://pkware.cachefly.net/webdocs/APPNOTE/APPNOTE-6.3.9.TXT))
+3. The index file MUST be preceded by a ZIP local file header (cf paragraph 4.3.7
+   of the [.ZIP File Format Specification](https://pkware.cachefly.net/webdocs/APPNOTE/APPNOTE-6.3.9.TXT))
 
-That local file header MAY use extended fields. Typically for the UTF-8
-file name extension.
+4. That local file header MAY use extended fields. Typically for the UTF-8
+   file name extension.
 
-That local file header MUST be immediately placed after the compressed file.
+5. That local file header MUST be immediately placed after the compressed file.
 
-That file MUST NOT be listed as a central file header, to remain invisible.
+6. That file MUST NOT be listed as a central file header, to remain invisible.
 
 ### Content of the index file
 
