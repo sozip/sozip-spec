@@ -108,8 +108,7 @@ than the chunk size  (otherwise there is no point in doing the SOZip optimizatio
    the compressed data.
 
    Note: a pseudo-code (among many possible variations) written in C++, using
-   zlib and assuming ``offset_size == 8`` (cf later paragraph), can be found in
-   [Annex E](#annex-e-pseudo-code-for-sozip-deflate-stream-generation)
+   zlib, can be found in [Annex E](#annex-e-pseudo-code-for-sozip-deflate-stream-generation)
 
 ## Hidden index file
 
@@ -173,9 +172,7 @@ Specification of fields:
   32 KB is a generally safe default value.
 
 * ``offset_size``: Number of bytes in which offsets in the offset section are
-  recommended. The only two supported values are 4 (uint32) and 8 (uint64).
-  A writer MUST use 8 if any value in the offset section can not fit in a uint32
-  integer.
+  recommended. This MUST be 8 (uint64 values).
 
 * ``uncompress_size``: Size in bytes of the uncompressed file (not the index, but
   the file subject to SOZip compression). This field is redundant with other
@@ -195,8 +192,7 @@ Specification of fields:
 1. The offset section MUST contain exactly ``(uncompress_size - 1) /
    chunk_size`` (floor rounding) entries, each of size ``offset_size`` bytes.
 
-2. Each entry is a uint32 (if ``offset_size`` = 4) or a uint64 (if
-   ``offset_size`` = 8) expressing the offset in the uncompressed stream at
+2. Each entry is a uint64 expressing the offset in the uncompressed stream at
    which a compressed chunk starts. The offset of the first compressed chunk is
    omitted, as always 0.
 
@@ -582,8 +578,8 @@ sozip --overwrite --enable-sozip=yes --sozip-chunk-size=2 foo.zip foo
 |    4   | uint16 | 20                       | version needed to extract |
 |    6   | uint16 | 0                        | general purpose bit flag |
 |    8   | uint16 | 8                        | compression method (8=deflate) |
-|   10   | uint16 | 747                      | last mod file time |
-|   12   | uint16 | 21908                    | last mod file date |
+|   10   | uint16 | 32168                    | last mod file time |
+|   12   | uint16 | 22053                    | last mod file date |
 |   14   | uint32 | 0x8C736521               | CRC32 |
 |   18   | uint32 | 16                       | compressed size |
 |   22   | uint32 | 3                        | uncompressed size |
@@ -604,9 +600,9 @@ sozip --overwrite --enable-sozip=yes --sozip-chunk-size=2 foo.zip foo
 |   53   | uint16 | 20                       | version needed to extract |
 |   55   | uint16 | 0                        | general purpose bit flag |
 |   57   | uint16 | 0                        | compression method (0=uncompressed) |
-|   59   | uint16 | 747                      | last mod file time |
-|   61   | uint16 | 21908                    | last mod file date |
-|   63   | uint32 | 0xC4707ACE               | CRC32 |
+|   59   | uint16 | 32168                    | last mod file time |
+|   61   | uint16 | 22053                    | last mod file date |
+|   63   | uint32 | 0x56FEC86C               | CRC32 |
 |   67   | uint32 | 36                       | compressed size |
 |   71   | uint32 | 36                       | uncompressed size |
 |   75   | uint16 | 14                       | filename length |
@@ -615,48 +611,48 @@ sozip --overwrite --enable-sozip=yes --sozip-chunk-size=2 foo.zip foo
 |   93   | uint32 | 1                        | SOZip version |
 |   97   | uint32 | 0                        | Bytes to skip |
 |  101   | uint32 | 2                        | chunk_size |
-|  105   | uint32 | 4                        | offset_size |
+|  105   | uint32 | 8                        | offset_size |
 |  109   | uint64 | 3                        | uncompress_size |
 |  117   | uint64 | 16                       | compress_size |
-|  125   | uint32 | 13                       | offset of the second compressed chunk<br>(absolute offset is 33 + 13 = 46) |
+|  125   | uint64 | 13                       | offset of the second compressed chunk<br>(absolute offset is 33 + 13 = 46) |
 
 
 3. Dump of the central header record describing the "foo" file:
 
 | Offset | Type   | Values                   | Comment                                              |
 | ------ | ------ | ------------------------ | ---------------------------------------------------- |
-|  129   | uint32 | 0x02014B50               | Central file header signature<br>(compressed file) |
-|  133   | uint16 | 0                        | version made by |
-|  135   | uint16 | 20                       | version needed to extract |
-|  137   | uint16 | 0                        | general purpose bit flag |
-|  139   | uint16 | 8                        | compression method (8=deflate) |
-|  141   | uint16 | 747                      | last mod file time |
-|  143   | uint16 | 21908                    | last mod file date |
-|  145   | uint32 | 0x8C736521               | CRC32 |
-|  149   | uint32 | 16                       | compressed size |
-|  153   | uint32 | 3                        | uncompressed size |
-|  157   | uint16 | 3                        | file name length |
-|  159   | uint16 | 0                        | extra field length |
-|  161   | uint16 | 0                        | file comment length |
-|  163   | uint16 | 0                        | disk number start |
-|  165   | uint16 | 0                        | internal file attributes |
-|  167   | uint32 | 0                        | external file attributes |
-|  171   | uint32 | 0                        | relative offset of local header (0 here because this<br>is the first file, and there's no leading content) |
-|  175   | byte[] |'f', 'o', 'o'             | filename |
+|  133   | uint32 | 0x02014B50               | Central file header signature<br>(compressed file) |
+|  137   | uint16 | 0                        | version made by |
+|  139   | uint16 | 20                       | version needed to extract |
+|  141   | uint16 | 0                        | general purpose bit flag |
+|  143   | uint16 | 8                        | compression method (8=deflate) |
+|  145   | uint16 | 32168                    | last mod file time |
+|  147   | uint16 | 22053                    | last mod file date |
+|  151   | uint32 | 0x8C736521               | CRC32 |
+|  155   | uint32 | 16                       | compressed size |
+|  159   | uint32 | 3                        | uncompressed size |
+|  161   | uint16 | 3                        | file name length |
+|  163   | uint16 | 0                        | extra field length |
+|  165   | uint16 | 0                        | file comment length |
+|  167   | uint16 | 0                        | disk number start |
+|  169   | uint16 | 0                        | internal file attributes |
+|  171   | uint32 | 0                        | external file attributes |
+|  175   | uint32 | 0                        | relative offset of local header (0 here because this<br>is the first file, and there's no leading content) |
+|  179   | byte[] |'f', 'o', 'o'             | filename |
 
 
 4. Dump of the end of central directory record:
 
 | Offset | Type   | Values                   | Comment                                              |
 | ------ | ------ | ------------------------ | ---------------------------------------------------- |
-|  178   | uint32 | 0x06054B50               | end of central dir signature |
-|  182   | uint16 | 0                        | number of this disk |
-|  184   | uint16 | 0                        | number of the disk with the start of the<br>central directory |
-|  186   | uint16 | 1                        | total number of entries in the central<br>directory on this disk |
-|  188   | uint16 | 1                        | total number of entries in the central<br>directory |
-|  190   | uint32 | 49                       | size of the central directory (= 178 - 129) |
-|  194   | uint32 | 129                      | offset of start of central directory with<br>respect to the starting disk number |
-|  198   | uint16 | 0                        | .ZIP file comment length |
+|  182   | uint32 | 0x06054B50               | end of central dir signature |
+|  186   | uint16 | 0                        | number of this disk |
+|  188   | uint16 | 0                        | number of the disk with the start of the<br>central directory |
+|  190   | uint16 | 1                        | total number of entries in the central<br>directory on this disk |
+|  192   | uint16 | 1                        | total number of entries in the central<br>directory |
+|  194   | uint32 | 49                       | size of the central directory (= 182 - 133) |
+|  198   | uint32 | 133                      | offset of start of central directory with<br>respect to the starting disk number |
+|  202   | uint16 | 0                        | .ZIP file comment length |
 
 
 Output of "zipdetails foo.zip" (using main branch of https://github.com/pmqs/zipdetails):
@@ -668,7 +664,7 @@ Output of "zipdetails foo.zip" (using main branch of https://github.com/pmqs/zip
 0006 General Purpose Flag  0000
      [Bits 1-2]            0 'Normal Compression'
 0008 Compression Method    0008 'Deflated'
-000A Last Mod Time         559F56D1 'Sat Dec 31 11:54:34 2022'
+000A Last Mod Time         56257DA8 'Thu Jan  5 16:45:16 2023'
 000E CRC                   8C736521
 0012 Compressed Length     00000010
 0016 Uncompressed Length   00000003
@@ -685,52 +681,52 @@ Output of "zipdetails foo.zip" (using main branch of https://github.com/pmqs/zip
 0036 Extract OS            00 'MS-DOS'
 0037 General Purpose Flag  0000
 0039 Compression Method    0000 'Stored'
-003B Last Mod Time         559F56D1 'Sat Dec 31 11:54:34 2022'
-003F CRC                   C4707ACE
-0043 Compressed Length     00000024
-0047 Uncompressed Length   00000024
+003B Last Mod Time         56257DA8 'Thu Jan  5 16:45:16 2023'
+003F CRC                   56FEC86C
+0043 Compressed Length     00000028
+0047 Uncompressed Length   00000028
 004B Filename Length       000E
 004D Extra Length          0000
 004F Filename              '.foo.sozip.idx'
 
 WARNING!
 Expected Zip header not found at offset 0x5D
-Skipping 0x20 bytes to Central Directory...
+Skipping 0x24 bytes to Central Directory...
 
-0081 CENTRAL HEADER #1     02014B50
-0085 Created Zip Spec      00 '0.0'
-0086 Created OS            00 'MS-DOS'
-0087 Extract Zip Spec      14 '2.0'
-0088 Extract OS            00 'MS-DOS'
-0089 General Purpose Flag  0000
+0085 CENTRAL HEADER #1     02014B50
+0089 Created Zip Spec      00 '0.0'
+008A Created OS            00 'MS-DOS'
+008B Extract Zip Spec      14 '2.0'
+008C Extract OS            00 'MS-DOS'
+008D General Purpose Flag  0000
      [Bits 1-2]            0 'Normal Compression'
-008B Compression Method    0008 'Deflated'
-008D Last Mod Time         559F56D1 'Sat Dec 31 11:54:34 2022'
-0091 CRC                   8C736521
-0095 Compressed Length     00000010
-0099 Uncompressed Length   00000003
-009D Filename Length       0003
-009F Extra Length          0000
-00A1 Comment Length        0000
-00A3 Disk Start            0000
-00A5 Int File Attributes   0000
+008F Compression Method    0008 'Deflated'
+0091 Last Mod Time         56257DA8 'Thu Jan  5 16:45:16 2023'
+0095 CRC                   8C736521
+0099 Compressed Length     00000010
+009D Uncompressed Length   00000003
+00A1 Filename Length       0003
+00A3 Extra Length          0000
+00A5 Comment Length        0000
+00A7 Disk Start            0000
+00A9 Int File Attributes   0000
      [Bit 0]               0 'Binary Data'
-00A7 Ext File Attributes   00000000
-00AB Local Header Offset   00000000
-00AF Filename              'foo'
+00AB Ext File Attributes   00000000
+00AF Local Header Offset   00000000
+00B3 Filename              'foo'
 
-00B2 END CENTRAL HEADER    06054B50
-00B6 Number of this disk   0000
-00B8 Central Dir Disk no   0000
-00BA Entries in this disk  0001
-00BC Total Entries         0001
-00BE Size of Central Dir   00000031
-00C2 Offset to Central Dir 00000081
-00C6 Comment Length        0000
+00B6 END CENTRAL HEADER    06054B50
+00BA Number of this disk   0000
+00BC Central Dir Disk no   0000
+00BE Entries in this disk  0001
+00C0 Total Entries         0001
+00C2 Size of Central Dir   00000031
+00C6 Offset to Central Dir 00000085
+00CA Comment Length        0000
 
 WARNINGS
 
-* Expected Zip header not found at offset 0x61, skipped 0x20 bytes
+* Expected Zip header not found at offset 0x61, skipped 0x24 bytes
 
 Done
 ```
