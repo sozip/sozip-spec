@@ -171,8 +171,8 @@ Specification of fields:
   is strongly recommended for performance and compatibility with SOZip readers.
   32 KB is a generally safe default value.
 
-* ``offset_size``: Number of bytes in which offsets in the offset section are
-  recommended. This MUST be 8 (uint64 values).
+* ``offset_size``: Number of bytes to encode each entry of the offset section.
+  This MUST be 8 (uint64 values).
 
 * ``uncompress_size``: Size in bytes of the uncompressed file (not the index, but
   the file subject to SOZip compression). This field is redundant with other
