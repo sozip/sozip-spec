@@ -4,35 +4,37 @@ This specification document is (C) 2022-2023 Even Rouault and licensed under the
 [CC-BY-4.0](https://spdx.org/licenses/CC-BY-4.0.html) terms.
 
 Note: the scope of the copyrighted material does, of course, not extend onto
-any source or binary code derived from the specification, that may be licensed
-under the terms that their author sees fit.
+any source or binary code derived from the specification.
 
 # What is SOZip ?
 
-A Seek-Optimized ZIP file (SOZip) is a [ZIP](https://en.wikipedia.org/wiki/ZIP_(file_format)) file
-that contains one or several Deflate-compressed files, optimized such that a
-SOZip-aware reader can perform very fast random access (seek) within a
-compressed file.
+A Seek-Optimized ZIP file (SOZip) is a
+[ZIP](https://en.wikipedia.org/wiki/ZIP_(file_format)) file that contains one
+or several [Deflate](https://www.ietf.org/rfc/rfc1951.txt)-compressed files
+that are organized and annotated such that a SOZip-aware reader can perform
+very fast random access (seek) within a compressed file.
 
-This opens the possibility of using large compressed files directly from a
-.zip file, without prior decompression.
-
-SOZip is *not* a new file format, but a profile of the existing ZIP format,
-done in a fully backward compatible way. ZIP readers that are non-SOZip aware
-should be able to read a SOZip-enabled file, ignoring the extended features.
+SOZip makes it possible to access large compressed files directly from a .zip
+file without prior decompression. It is *not* a new file format, but a profile
+of the existing ZIP format, done in a fully backward compatible way. ZIP
+readers that are non-SOZip aware can read a SOZip-enabled file
+normally and ignore the extended features that support efficient seek
+capability.
 
 # Use cases
 
 This specification is intended to be general purpose / not domain specific.
 
-Nevertheless it has been developed to serve a few geospatial use cases. In
-particular, to make it possible for users to read (large) files using the
-Shapefile, GeoPackage or FlatGeobuf formats (which have no native provision for
-compression) compressed in .zip files, in Geographic Information Systems (GIS)
-without prior decompression.
+SOZip was first developed to serve geospatial use cases, which commonly
+have large compressed files inside of ZIP archives. In particular, it makes it
+possible for users to read large Geographic Information Systems (GIS) files using the
+[Shapefile](https://en.wikipedia.org/wiki/Shapefile),
+[GeoPackage](https://www.geopackage.org/) or
+[FlatGeobuf](http://flatgeobuf.org/) formats (which have no native provision
+for compression) compressed in .zip files without prior decompression.
 
-Efficient random access to features within such files is a requirement to get
-acceptable performance in usage scenarios: spatial index filtering, access to a
+Efficient random access and selective decompression are a requirement to provide
+acceptable performance in many usage scenarios: spatial index filtering, access to a
 feature by its identifier, etc.
 
 
@@ -40,29 +42,32 @@ feature by its identifier, etc.
 
 The SOZip optimization relies on two independent and combined mechanisms:
 
-* the first one is the generation of a [Deflate](https://www.ietf.org/rfc/rfc1951.txt)
-  compressed stream which is structured in a way such that it contains chunks of
-  data that can be compressed and uncompressed in an independent way from
-  preceding and following chunks in the compressed stream. Conceptually, such
-  a compressed file could be seen as split in multiple independently compressed
-  files. But from the point of view of a non-SOZip-aware ZIP reader, this will
-  still be a fully single legit compressed stream for the whole file.
-  That chunking relies on the block flush mechanisms of the ZLib library, which is
-  typically used by the [pigz](https://zlib.net/pigz/pigz.pdf) utility with its
-  *--independent* option. Those block flushes are done at a regular interval of
-  the input uncompressed stream. In the rest of this document, this interval is
+* The first mechanism is the generation of a [Deflate](https://www.ietf.org/rfc/rfc1951.txt)
+  compressed stream that is structured in such a way that it contains data chunks
+  that can be compressed and uncompressed independently from
+  preceding and proceeding chunks in the compression stream. Conceptually, such
+  a compressed file could be split into multiple independently compressed
+  files, but from the point of view of a non-SOZip-aware ZIP reader, it will
+  be a fully single legit compressed stream for the whole file.
+  The chunking relies on the block flush mechanisms of the ZLib library, an
+  example of which is the [pigz](https://zlib.net/pigz/pigz.pdf) utility with its
+  *--independent* option. Block flushes are done at a regular interval of
+  the input uncompressed stream, with the consequence of slight degradation of
+  the compression rate. In the rest of this document, this interval is
   called chunk size. A typical value for it is 32 kilobytes.
 
-* the creation of a hidden index file which contains an array which maps file
-  offsets of the uncompressed file, at every chunk size interval, to the
-  corresponding offset in the Deflate compressed stream.
-
+* The second mechanism is the creation of a hidden index file containing an
+  array that maps file offsets of the uncompressed file, at every chunk size
+  interval, to the corresponding offset in the Deflate compressed stream. This
+  index is the structure that allows SOZip-aware readers to skip about throughout
+  the file.
 
 # Detailed specification
 
 A ZIP file is said to be SOZip-enabled if it contains one or several Deflate
 compressed files meeting the following requirements, in additions to the
-requirements of the [.ZIP File Format Specification](https://pkware.cachefly.net/webdocs/APPNOTE/APPNOTE-6.3.9.TXT).
+requirements of the [.ZIP File Format
+Specification](https://pkware.cachefly.net/webdocs/APPNOTE/APPNOTE-6.3.9.TXT).
 
 A SOZip-enabled file may contain a mix of SOZip-compressed and regular compressed
 or uncompressed files.
@@ -72,36 +77,39 @@ than the chunk size  (otherwise there is no point in doing the SOZip optimizatio
 
 ## Chunked Deflate-compressed stream
 
-A SOZip-compressed file MUST be created with compression_method = 8 (Deflate).
+1. A SOZip-compressed file MUST be created with ``compression_method = 8``
+   (Deflate).
 
-A SOZip-compressed file MUST have a corresponding
-[local file header](https://en.wikipedia.org/wiki/ZIP_(file_format)#Local_file_header)
-and a [central directory file header](https://en.wikipedia.org/wiki/ZIP_(file_format)#Central_directory_file_header).
+2. A SOZip-compressed file MUST have a corresponding [local file
+   header](https://en.wikipedia.org/wiki/ZIP_(file_format)#Local_file_header)
+   and a [central directory file
+   header](https://en.wikipedia.org/wiki/ZIP_(file_format)#Central_directory_file_header).
 
-Those headers MAY use extended fields. Typically for the
-[ZIP64](https://en.wikipedia.org/wiki/ZIP_(file_format)#ZIP64) extension if
-the compressed and/or uncompressed size of a file exceeds 4 GB. Or the UTF-8
-file name extension.
+3. Those headers MAY use extended fields. Typically for the
+   [ZIP64](https://en.wikipedia.org/wiki/ZIP_(file_format)#ZIP64) extension if
+   the compressed and/or uncompressed size of a file exceeds 4 GB. Or the UTF-8
+   file name extension.
 
-A SOZip writer MUST issue a call to ``deflate()``
-[ZLib](https://www.zlib.net/manual.html) method with the ``Z_SYNC_FLUSH`` mode,
-followed by a call with the ``Z_FULL_FLUSH`` flag, at a fixed interval (called
-chunk size) of the data read from the input uncompressed stream.
+4. A SOZip writer MUST issue a call to ``deflate()``
+   [ZLib](https://www.zlib.net/manual.html) method with the ``Z_SYNC_FLUSH``
+   mode, followed by a call with the ``Z_FULL_FLUSH`` flag, at a fixed interval
+   (called chunk size) of the data read from the input uncompressed stream.
 
-``Z_SYNC_FLUSH`` and ``Z_FULL_FLUSH`` are not required (but may be used) for
-the final chunk, whose size may be smaller or equal to the chunk size.
-However the last call to ``deflate()`` to encode the last chunk MUST be done
-with the ``Z_FINISH`` flag, to finalize a valid Deflate stream.
+5. ``Z_SYNC_FLUSH`` and ``Z_FULL_FLUSH`` are not required (but may be used) for
+   the final chunk, whose size may be smaller or equal to the chunk size.
+   However the last call to ``deflate()`` to encode the last chunk MUST be done
+   with the ``Z_FINISH`` flag, to finalize a valid Deflate stream.
 
-Note: an explanation of the ``Z_SYNC_FLUSH`` and ``Z_FULL_FLUSH`` mode can be found at
-https://www.bolet.org/~pornin/deflate-flush-fr.html
+   Note: an explanation of the ``Z_SYNC_FLUSH`` and ``Z_FULL_FLUSH`` mode can be found at
+   https://www.bolet.org/~pornin/deflate-flush-fr.html
 
-The writer MUST collect the offset (relative to the start of the compressed
-data) of each chunk, except for the initial chunk size whose offset is zero.
+6. The writer MUST collect the offset of each chunk, except for the initial
+   chunk size whose offset is zero.  Offsets MUST be relative to the start of
+   the compressed data.
 
-Note: a pseudo-code (among many possible variations) written in C++, using
-zlib and assuming offset_size == 8 (cf later paragraph), can be found in
-[Annex E](#annex-e-pseudo-code-for-sozip-deflate-stream-generation)
+   Note: a pseudo-code (among many possible variations) written in C++, using
+   zlib and assuming ``offset_size == 8`` (cf later paragraph), can be found in
+   [Annex E](#annex-e-pseudo-code-for-sozip-deflate-stream-generation)
 
 ## Hidden index file
 
@@ -110,12 +118,12 @@ zlib and assuming offset_size == 8 (cf later paragraph), can be found in
 The index file MUST be stored as a uncompressed file.
 
 The index file name MUST be :
-- "${path_to_filename}/.${filename}.sozip.idx" where ${path_to_filename} is the name
-  of the directory if ${filename} contains directory paths.
-  For example "my_dir/.rivers.gpkg.sozip.idx" if the filename stored in the
-  archive is "my_dir/rivers.gpkg.sozip.idx"
-- or ".${filename}.sozip.idx" if there is no directory path in the filename.
-  For example ".rivers.gpkg.sozip.idx"
+- ``${path_to_filename}/.${filename}.sozip.idx`` where ``${path_to_filename}`` is the name
+  of the directory if ``${filename}`` contains directory paths.
+  For example ``my_dir/.rivers.gpkg.sozip.idx`` if the filename stored in the
+  archive is ``my_dir/rivers.gpkg.sozip.idx``
+- or ``.${filename}.sozip.idx`` if there is no directory path in the filename.
+  For example ``.rivers.gpkg.sozip.idx``
 
 Note the leading dot ('.') character preceding the index filename, to indicate
 its hidden status.
@@ -126,7 +134,7 @@ of the [.ZIP File Format Specification](https://pkware.cachefly.net/webdocs/APPN
 That local file header MAY use extended fields. Typically for the UTF-8
 file name extension.
 
-That local file header MUST be put immediately placed after the compressed file.
+That local file header MUST be immediately placed after the compressed file.
 
 That file MUST NOT be listed as a central file header, to remain invisible.
 
@@ -159,7 +167,7 @@ Specification of fields:
   of the offset section. Generally set to 0.
 
 * ``chunk_size``: Interval, in uncompressed stream, at which Z_SYNC_FLUSH +
-  Z_FULL_FLUSH are performed. It MUST be strictly greater than zero (a value
+  Z_FULL_FLUSH are performed. It MUST not be zero (a value
   of 4096 or bigger is strongly recommended). A value lower than 100 MB
   is strongly recommended for performance and compatibility with SOZip readers.
   32 KB is a generally safe default value.
@@ -172,7 +180,7 @@ Specification of fields:
 * ``uncompress_size``: Size in bytes of the uncompressed file (not the index, but
   the file subject to SOZip compression). This field is redundant with other
   information found in the local and central file headers of the compressed file,
-  and is here so that a reader can check the consistency of the SOZip index
+  and is provides a reader a consistency check of the SOZip index
   with the compressed file. ``uncompress_size`` must be strictly greater than
   ``chunk_size``
 
@@ -184,24 +192,25 @@ Specification of fields:
 
 #### Offset section
 
-The offset section MUST contain exactly ``(uncompress_size - 1) / chunk_size``
-(floor rounding) entries, each of size ``offset_size`` bytes.
+1. The offset section MUST contain exactly ``(uncompress_size - 1) /
+   chunk_size`` (floor rounding) entries, each of size ``offset_size`` bytes.
 
-Each entry is a uint32 (if ``offset_size`` = 4) or a uint64 (if ``offset_size`` = 8)
-expressing the offset in the uncompressed stream at which a compressed chunk
-starts. The offset of the first compressed chunk is omitted, as always 0.
+2. Each entry is a uint32 (if ``offset_size`` = 4) or a uint64 (if
+   ``offset_size`` = 8) expressing the offset in the uncompressed stream at
+   which a compressed chunk starts. The offset of the first compressed chunk is
+   omitted, as always 0.
 
-The first offset value is thus the offset in the compressed stream where
-uncompressed bytes in the range
-``[chunk_size, min(2 * chunk_size, uncompressed_size)[`` are encoded.
+3. The first offset value is thus the offset in the compressed stream where
+   uncompressed bytes in the range ``[chunk_size, min(2 * chunk_size,
+   uncompressed_size)[`` are encoded.
 
-The second offset value is the offset in the compressed stream where
-uncompressed bytes in the range
-``[2 * chunk_size, min(3 * chunk_size, uncompressed_size)[`` are encoded. And so on.
+4. The second offset value is the offset in the compressed stream where
+   uncompressed bytes in the range ``[2 * chunk_size, min(3 * chunk_size,
+   uncompressed_size)[`` are encoded. And so on.
 
-As a consequence of the generation of the index, values in the offset section
-MUST be in strictly ascending order, and MUST be stricly lower than
-``compress_size``.
+5. As a consequence of the generation of the index, values in the offset
+   section MUST be in strictly ascending order, and MUST be strictly lower than
+   ``compress_size``.
 
 # Normative references
 
@@ -725,3 +734,4 @@ WARNINGS
 
 Done
 ```
+
