@@ -488,8 +488,6 @@ to reuse and adapt without any constaint).
                            Z_DEFAULT_STRATEGY);
     // TODO: add error checking
 
-    // Note: for a file whose compressed size does not exceed 4 GB, this could be
-    // a vector of uint32_t values.
     std::vector<uint64_t> offsets;
     const uint64_t start_offset = tell_position(compressed_file_handle);
 
