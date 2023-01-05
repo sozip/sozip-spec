@@ -38,18 +38,18 @@ feature by its identifier, etc.
 
 # High-level specification
 
-The SOZip optimization relies on two independant and combined mechanisms:
+The SOZip optimization relies on two independent and combined mechanisms:
 
 * the first one is the generation of a [Deflate](https://www.ietf.org/rfc/rfc1951.txt)
   compressed stream which is structured in a way such that it contains chunks of
-  data that can be compressed and uncompressed in an independant way from
+  data that can be compressed and uncompressed in an independent way from
   preceding and following chunks in the compressed stream. Conceptually, such
-  a compressed file could be seen as split in multiple independantly compressed
+  a compressed file could be seen as split in multiple independently compressed
   files. But from the point of view of a non-SOZip-aware ZIP reader, this will
   still be a fully single legit compressed stream for the whole file.
   That chunking relies on the block flush mechanisms of the ZLib library, which is
   typically used by the [pigz](https://zlib.net/pigz/pigz.pdf) utility with its
-  *--independant* option. Those block flushes are done at a regular interval of
+  *--independent* option. Those block flushes are done at a regular interval of
   the input uncompressed stream. In the rest of this document, this interval is
   called chunk size. A typical value for it is 32 kilobytes.
 
@@ -301,10 +301,10 @@ SOZip-capable GDAL, through the use of GDAL ``/vsizip/`` virtual file system.
 
 ## Advantages
 
-* SOZip allows multithreaded compression of independant chunks. This is for
+* SOZip allows multithreaded compression of independent chunks. This is for
   example used in the GDAL implementation.
 
-* SOZip allows multithreaded decompression of independant chunks.
+* SOZip allows multithreaded decompression of independent chunks.
 
 * For decompression, faster alternatives to zlib can be used, such as
   [libdeflate](https://github.com/ebiggers/libdeflate). This is for example used
