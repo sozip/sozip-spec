@@ -7,17 +7,18 @@ This repository contains the [specification](sozip_specification.md) for the SOZ
 
 # What is SOZip ?
 
-A Seek-Optimized ZIP file (SOZip) is a [ZIP](https://en.wikipedia.org/wiki/ZIP_(file_format)) file
-that contains one or several Deflate-compressed files, optimized such that a
-SOZip-aware reader can perform very fast random access (seek) within a
-compressed file.
+A Seek-Optimized ZIP file (SOZip) is a
+[ZIP](https://en.wikipedia.org/wiki/ZIP_(file_format)) file that contains one
+or several [Deflate](https://www.ietf.org/rfc/rfc1951.txt)-compressed files
+that are organized and annotated such that a SOZip-aware reader can perform
+very fast random access (seek) within a compressed file.
 
-This opens the possibility of using large compressed files directly from a
-.zip file, without prior decompression.
-
-SOZip is *not* a new file format, but a profile of the existing ZIP format,
-done in a fully backward compatible way. ZIP readers that are non-SOZip aware
-should be able to read a SOZip-enabled file, ignoring the extended features.
+SOZip makes it possible to access large compressed files directly from a .zip
+file without prior decompression. It is *not* a new file format, but a profile
+of the existing ZIP format, done in a fully backward compatible way. ZIP
+readers that are non-SOZip aware can read a SOZip-enabled file
+normally and ignore the extended features that support efficient seek
+capability.
 
 # Software implementations
 
