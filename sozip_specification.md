@@ -493,10 +493,12 @@ to reuse and adapt without any constaint).
 
     bool first_block = true;
     uint32_t crc32Val = 0;
+    uint64_t uncompress_size = 0;
     while (true)
     {
         // Acquire input data, up to chunk_size bytes
         std::vector<uint8_t> uncompressed_data = read(uncompressed_stream, chunk_size);
+        uncompress_size += uncompressed_data.size();
 
         if (!first_block && !uncompressed_data.empty())
         {
@@ -546,6 +548,9 @@ to reuse and adapt without any constaint).
             break;
         }
     }
+
+    if (uncompress_size > 0 )
+        assert (offsets.size() == (uncompress_size - 1) / chunk_size);
 
     // TODO: store crc32Val in local and central header records
 
