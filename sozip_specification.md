@@ -87,7 +87,7 @@ than the chunk size  (otherwise there is no point in doing the SOZip optimizatio
 
 3. Those headers MAY use extended fields. Typically for the
    [ZIP64](https://en.wikipedia.org/wiki/ZIP_(file_format)#ZIP64) extension if
-   the compressed and/or uncompressed size of a file exceeds 4 GB. Or the UTF-8
+   the compressed and/or uncompressed size of a file exceeds 4 GB. And/or the UTF-8
    file name extension.
 
 4. A SOZip writer MUST issue a call to ``deflate()``
@@ -131,7 +131,9 @@ than the chunk size  (otherwise there is no point in doing the SOZip optimizatio
    of the [.ZIP File Format Specification](https://pkware.cachefly.net/webdocs/APPNOTE/APPNOTE-6.3.9.TXT))
 
 4. That local file header MAY use extended fields. Typically for the UTF-8
-   file name extension.
+   file name extension. If the local file header of the indexed file uses the
+   UTF-8 extension, the local file header of the index file MUST also use the
+   UTF-8 extension.
 
 5. That local file header MUST be immediately placed after the compressed file.
 
