@@ -1,7 +1,7 @@
 # Version
 
-Version: 0.5.0
-Date: 2023-Jan-06
+- Version: 0.5.0
+- Date: 2023-Jan-06
 
 # License
 
