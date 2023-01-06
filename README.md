@@ -33,6 +33,13 @@ for more details.
 Examples of SOZip-enabled files can be found in the
 [sozip-examples](https://github.com/sozip/sozip-examples) repository.
 
+# Other ZIP related specification
+
+This repository also contains the [KeyValuePairs extra-field specification](zip_keyvalue_extra_field_specification.md),
+to be able to encode arbitrary key-value pairs of metadata associated with a file
+within a ZIP. For example to store the Content-Type of a file.
+
+
 # Social media
 
 Find me on [![Twitter](images/32px-Twitter-logo.svg.png)](https://twitter.com/sozipOrg) and
