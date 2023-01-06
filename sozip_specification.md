@@ -495,17 +495,18 @@ to reuse and adapt without any constaint).
     uint32_t crc32Val = 0;
     while (true)
     {
-        if (!first_block)
+        // Acquire input data, up to chunk_size bytes
+        std::vector<uint8_t> uncompressed_data = read(uncompressed_stream, chunk_size);
+
+        if (!first_block && !uncompressed_data.empty())
         {
             // Track the offset in the compressed stream of the beginning of
-            // the new chunk (except for first chunk)
+            // the new chunk (except for first chunk, and also if the uncompressed
+            // file size was exactly a multiple of chunk_size)
             offsets.push_back(uint64_little_endian(
                 tell_position(compressed_file_handle) - start_offset));
         }
         first_block = false;
-
-        // Acquire input data, up to chunk_size bytes
-        std::vector<uint8_t> uncompressed_data = read(uncompressed_stream, chunk_size);
 
         // Prepare output buffer (with security margin for very small chunks,
         // or chunks that compresses poorly)
