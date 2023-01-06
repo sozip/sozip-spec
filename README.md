@@ -38,6 +38,11 @@ Examples of SOZip-enabled files can be found in the
 Find me on [![Twitter](images/32px-Twitter-logo.svg.png)](https://twitter.com/sozipOrg) and
 [![Mastodon](images/Mastodon_Logotype_(Simple).png)](https://fosstodon.org/@sozip)
 
+# Credits
+
+The SOZip specification and its GDAL implementation have been developed by
+[Spatialys](https://spatialys.com), with support from [Safe Software](https://www.safe.com/)
+
 <!---
 # Adopters
 
