@@ -135,7 +135,7 @@ than the chunk size  (otherwise there is no point in doing the SOZip optimizatio
 
 5. That local file header MUST be immediately placed after the compressed file.
 
-6. That file MUST NOT be listed as a central file header, to remain invisible.
+6. That file MUST NOT be listed as a central directory file header, to remain invisible.
 
 ### Content of the index file
 
@@ -176,14 +176,14 @@ Specification of fields:
 
 * ``uncompress_size``: Size in bytes of the uncompressed file (not the index, but
   the file subject to SOZip compression). This field is redundant with other
-  information found in the local and central file headers of the compressed file,
+  information found in the local and central directory file headers of the compressed file,
   and is provides a reader a consistency check of the SOZip index
   with the compressed file. ``uncompress_size`` must be strictly greater than
   ``chunk_size``
 
 * ``compress_size``: Size in bytes of the compressed file (not the index, but
   the file subject to SOZip compression). This field is redundant with other
-  information found in the local and central file headers of the compressed file,
+  information found in the local and central directory file headers of the compressed file,
   and is here so that a reader can check the consistency of the SOZip index
   with the compressed file.
 
