@@ -273,6 +273,15 @@ Examples:
   docker run --rm -it -v $PWD:$PWD rouault/sozip sozip --validate $PWD/my.zip
   ```
 
+* Extracting the polygons extracting a georeferenced window of interest from a
+  remote SOZip-optimized GeoPackage file:
+
+  ```shell
+  docker run --rm -it -v $PWD:$PWD rouault/sozip \
+      ogr2ogr $PWD/out.geojson /vsizip//vsicurl/http://even.rouault.free.fr/sozip/nz-building-outlines.gpkg.zip \
+      -spat 1749900 5946100 1741000 5946200
+  ```
+
 ## sozipfile (Python module)
 
 [sozipfile](https://github.com/sozip/sozipfile) is a fork of Python
