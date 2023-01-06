@@ -194,7 +194,7 @@ Specification of fields:
 1. The offset section MUST contain exactly ``(uncompress_size - 1) /
    chunk_size`` (floor rounding) entries, each of size ``offset_size`` bytes.
 
-2. Each entry is a uint64 expressing the offset in the uncompressed stream at
+2. Each entry MUST be a uint64 expressing the offset in the uncompressed stream at
    which a compressed chunk starts. The offset of the first compressed chunk
    MUST be omitted, as always 0.
 
