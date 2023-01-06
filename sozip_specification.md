@@ -552,12 +552,113 @@ to reuse and adapt without any constaint).
     deflateEnd(&zStream);
 ```
 
-# Annex F: Examples
+# Annex F: Notes to independently decode a SOZip chunk
+
+The chunking process, involving Z_FULL_FLUSH, used during SOZip generation
+makes it possible to decompress chunks in an independent way.
+
+Given ``uncompressed_offset`` being an offset of the uncompressed file,
+multiple of ``chunk_size``, the reader should retrieve in the offset section
+of the .sozip.idx (stored in an array ``compressed_offset_table[]``),
+the start and end offsets of the chunk, like below:
+
+```c++
+    assert (uncompressed_offset % chunk_size) == 0);
+    size_t entry_idx = uncompressed_offset / chunk_size;
+    uint64_t relative_start_offset;
+    if (entry_idx == 0)
+        relative_start_offset = 0;
+    else
+        relative_start_offset = compressed_offset_table[entry_idx - 1];
+
+    uint64_t relative_end_offset;
+    if (entry_idx < compressed_offset_table.size() )
+        relative_end_offset = compressed_offset_table[entry];
+    else
+        relative_end_offset = compress_size;
+
+    size_t compressed_chunk_size = relative_end_offset - relative_start_offset;
+
+    seek(compressed_stream, absolute_offset_of_start_of_deflate_stream + relative_start_offset);
+    std::vector<uint8_t> compressed_chunk_data = read(compressed_stream, compressed_chunk_size);
+```
+
+Given that each chunk, except the last one, is not a standalone Deflate stream,
+reading code must be careful to present it in a way that will not confuse the
+Deflate decoding library.
+The only precaution to take is to dynamically patch the last flush Deflate block
+at the end of the compressed chunk to be advertized as the final Deflate block
+of the chunk.
+
+Given the use of Z_FULL_FLUSH, the last 5 bytes of a chunk (that is not the last
+one) should be ``\x00``, ``\x00``, ``\x00``, ``\xFF``, ``\xFF``. The patching
+operation consists in changing the first byte of this 5 byte sequence from
+``\x00`` to ``\x01`` as below:
+
+```c++
+    if (compressed_chunk_size >= 5 &&
+        memcmp(compressed_chunk_data.data() + compressed_chunk_size - 5, "\x00\x00\x00\xFF\xFF", 5) == 0)
+    {
+        // Tag this flush Deflate block as the last one of the chunk.
+        compressed_chunk_data[compressed_chunk_size - 5] = 0x01;
+    }
+```
+
+With the above, if using ``zlib``, a chunk can then be decompressed with:
+
+```c++
+    z_stream zStream;
+    memset(&zStream, 0, sizeof(zStream));
+
+    int err = inflateInit2(&zStream, -MAX_WBITS);
+    // TODO: add error checking
+
+    size_t decompressed_size = chunk_size_for_all_chunks_except_last_one;
+    std::vector<uint8_t> decompressed_data(decompressed_size);
+    zStream.avail_in = compressed_chunk_size;
+    zStream.next_in = compressed_chunk_data;
+    zStream.avail_out = decompressed_size;
+    zStream.next_out = decompressed_data;
+
+    err = inflate(&zStream, Z_FINISH);
+    if (err == Z_STREAM_END && zStream.avail_in == 0 && zStream.avail_out == 0 )
+    {
+        // success
+    }
+    inflateEnd(&zStream);
+```
+
+Or if using ``libdeflate``:
+
+```c++
+    struct libdeflate_decompressor *decompressor = libdeflate_alloc_decompressor();
+    // TODO: add error checking
+
+    size_t decompressed_size = chunk_size_for_all_chunks_except_last_one;
+    std::vector<uint8_t> decompressed_data(decompressed_size);
+    size_t actual_decompressed_size = 0;
+    if (libdeflate_deflate_decompress(
+            decompressor,
+            compressed_chunk_data, compressed_chunk_size,
+            decompressed_data.data(), decompressed_size,
+            &actual_decompressed_size) == LIBDEFLATE_SUCCESS &&
+        actual_decompressed_size == decompressed_size)
+    {
+        // success
+    }
+    libdeflate_free_decompressor(decompressor);
+```
+
+All pseudo-code in this annex is licensed under [CC0](https://spdx.org/licenses/CC0-1.0.html) or
+[MIT](https://spdx.org/licenses/MIT.html) at the choice of the user (that is feel free
+to reuse and adapt without any constaint).
+
+# Annex G: Examples
 
 Examples of SOZip-enabled files can be found in the
 [sozip-examples](https://github.com/sozip/sozip-examples) repository.
 
-# Annex G: commented dump of a dummy SOZip file
+# Annex H: commented dump of a dummy SOZip file
 
 The following invokation of GDAL's sozip utility generates a dummy
 SOZip enabled file that contains a tiny file "foo" with "foo" as content,
@@ -728,4 +829,3 @@ WARNINGS
 
 Done
 ```
-
