@@ -1,3 +1,8 @@
+# Version
+
+Version: 0.5.0
+Date: 2023-Jan-06
+
 # License
 
 This specification document is (C) 2022-2023 Even Rouault and licensed under the
