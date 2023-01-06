@@ -195,18 +195,18 @@ Specification of fields:
    chunk_size`` (floor rounding) entries, each of size ``offset_size`` bytes.
 
 2. Each entry is a uint64 expressing the offset in the uncompressed stream at
-   which a compressed chunk starts. The offset of the first compressed chunk is
-   omitted, as always 0.
+   which a compressed chunk starts. The offset of the first compressed chunk
+   MUST be omitted, as always 0.
 
-3. The first offset value is thus the offset in the compressed stream where
+   The first offset value is thus the offset in the compressed stream where
    uncompressed bytes in the range ``[chunk_size, min(2 * chunk_size,
    uncompressed_size)[`` are encoded.
 
-4. The second offset value is the offset in the compressed stream where
+   The second offset value is the offset in the compressed stream where
    uncompressed bytes in the range ``[2 * chunk_size, min(3 * chunk_size,
    uncompressed_size)[`` are encoded. And so on.
 
-5. As a consequence of the generation of the index, values in the offset
+3. As a consequence of the generation of the index, values in the offset
    section MUST be in strictly ascending order, and MUST be strictly lower than
    ``compress_size``.
 
