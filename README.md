@@ -49,7 +49,7 @@ Find me on [![Twitter](images/32px-Twitter-logo.svg.png)](https://twitter.com/so
 # Credits
 
 The SOZip specification and its GDAL implementation have been developed by
-[Spatialys](https://spatialys.com), with support from [Safe Software](https://www.safe.com/)
+[Spatialys](https://www.spatialys.com), with support from [Safe Software](https://www.safe.com/)
 
 <!---
 # Adopters
