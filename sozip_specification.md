@@ -200,9 +200,12 @@ Specification of fields:
 1. The offset section MUST contain exactly ``(uncompress_size - 1) /
    chunk_size`` (floor rounding) entries, each of size ``offset_size`` bytes.
 
-2. Each entry MUST be a uint64 expressing the offset in the uncompressed stream at
-   which a compressed chunk starts. The offset of the first compressed chunk
-   MUST be omitted, as always 0.
+2. Each entry MUST be a uint64 expressing the offset at which a compressed chunk
+   starts. That offset is a relative offset, with respect to the start of the
+   compressed stream (consequently, the indexed file and its index could be
+   potentially relocated within the .zip file without requiring to regenerate
+   the index).
+   The offset of the first compressed chunk MUST be omitted, as always 0.
 
    The first offset value is thus the offset in the compressed stream where
    uncompressed bytes in the range ``[chunk_size, min(2 * chunk_size,
@@ -736,7 +739,7 @@ sozip --overwrite --enable-sozip=yes --sozip-chunk-size=2 foo.zip foo
 |  105   | uint32 | 8                        | offset_size |
 |  109   | uint64 | 3                        | uncompress_size |
 |  117   | uint64 | 16                       | compress_size |
-|  125   | uint64 | 13                       | offset of the second compressed chunk<br>(absolute offset is 33 + 13 = 46) |
+|  125   | uint64 | 13                       | (relative) offset to the start of the 2nd compressed chunk<br>(absolute offset is 33 + 13 = 46) |
 
 
 3. Dump of the central header record describing the "foo" file:
