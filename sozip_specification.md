@@ -67,6 +67,35 @@ The SOZip optimization relies on two independent and combined mechanisms:
   index is the structure that allows SOZip-aware readers to skip about throughout
   the file.
 
+
+The below diagram shows the organization in high level records of a SOZip-enabled
+ZIP consisting of a SOZIP-optimized file ``my.gpkg``:
+
+- ``my.gpkg`` file preceded by its local header
+
+- ``.my.gpkg.sozip.idx`` index file preceded by its local header
+
+- Central directory with an entry corresponding to ``my.gpkg`` (and none for the
+  index file)
+
+- End of Central directory
+
+![High level structure](images/high_level_structure.png)
+
+
+If we zoom on the content of those 2 files, we can see that:
+
+- the Deflate stream of ``my.gpkg`` consists in many concatenated independent
+  chunks.
+
+  ![Detailed structure of indexed file](images/detailed_structure_indexed_file.png)
+
+- the ``.my.gpkg.sozip.idx`` index file contains the offsets to the beginning of
+  each chunk.
+
+  ![Detailed structure of index file](images/detailed_structure_index_file.png)
+
+
 # Detailed specification
 
 A ZIP file is said to be SOZip-enabled if it contains one or several Deflate
