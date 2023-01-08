@@ -3,7 +3,7 @@
 This repository contains the [specification](sozip_specification.md) for the SOZip
 (Seek-Optimized Zip) profile to the ZIP file format.
 
-![Logo](images/logo.png)
+[![Logo](images/logo.png)](#here)
 
 # What is SOZip ?
 

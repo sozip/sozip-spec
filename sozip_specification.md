@@ -80,7 +80,7 @@ ZIP consisting of a SOZIP-optimized file ``my.gpkg``:
 
 - End of Central directory
 
-![High level structure](images/high_level_structure.png)
+[![High level structure](images/high_level_structure.png)](#here)
 
 
 If we zoom on the content of those 2 files, we can see that:
@@ -88,12 +88,12 @@ If we zoom on the content of those 2 files, we can see that:
 - the Deflate stream of ``my.gpkg`` consists in many concatenated independent
   chunks.
 
-  ![Detailed structure of indexed file](images/detailed_structure_indexed_file.png)
+  [![Detailed structure of indexed file](images/detailed_structure_indexed_file.png)](#ere)
 
 - the ``.my.gpkg.sozip.idx`` index file contains the offsets to the beginning of
   each chunk.
 
-  ![Detailed structure of index file](images/detailed_structure_index_file.png)
+  [![Detailed structure of index file](images/detailed_structure_index_file.png)](#here)
 
 
 # Detailed specification
