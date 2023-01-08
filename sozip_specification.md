@@ -200,7 +200,9 @@ Specification of fields:
 * ``version``: MUST be set to 1 for this specification
 
 * ``skip_bytes``: number of bytes between the end of the header and the beginning
-  of the offset section. Generally set to 0.
+  of the offset section. Generally set to 0. This could be set to a non-zero
+  value to store extra content, unspecified currently. SOZip readers SHOULD skip
+  over such extra content.
 
 * ``chunk_size``: Interval, in uncompressed stream, at which Z_SYNC_FLUSH +
   Z_FULL_FLUSH are performed. It MUST not be zero (a value
