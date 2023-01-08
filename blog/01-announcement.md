@@ -41,7 +41,7 @@ feature by its identifier, etc.
 
 ## Software implementations
 
-- [GDAL](https://gdal.org) (C/C++ open source library):
+- [![GDAL](../images/gdalicon.png)](https://gdal.org) (C/C++ open source library):
   provides a full featured implementation providing a
   ``sozip`` command line utility to create SOZip-enabled files, append new files
   to them, validate them, reprocess regular ZIP files as SOZip-enabled, etc.
