@@ -67,6 +67,15 @@ for more details.
 Examples of SOZip-enabled files can be found in the
 [sozip-examples](https://github.com/sozip/sozip-examples) repository.
 
+## Performance
+
+SOZip is efficient:
+- Overhead for common read operations is in the order of 10%.
+- Generation of a SOZip file can be much faster than regular ZIP generation when using multithreading.
+- SOZip files are typically ~ 5% larger than regular ZIPs.
+
+Have a look at [benchmarking results](../README.md#benchmarking).
+
 ## Other ZIP related specification
 
 This GitHub organization also host the
@@ -80,7 +89,8 @@ We welcome contributions to this specification as [issues](https://github.com/so
 [pull requests](https://github.com/sozip/sozip-spec/pulls) or
 [discussions](https://github.com/sozip/sozip-spec/discussions).
 
-If you use SOZip or plan to use it, let us know.
+If you use SOZip or plan to use it for your data delivery, or consider doing a
+SOZip implementation, etc., let us know!
 
 ## Social media
 

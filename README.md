@@ -40,6 +40,38 @@ This GitHub organization also host the
 to be able to encode arbitrary key-value pairs of metadata associated with a file
 within a ZIP. For example to store the Content-Type of a file.
 
+# Benchmarking
+
+Done with GDAL [sozip](https://github.com/rouault/gdal/tree/sozip) branch, on a
+laptop running a Intel(R) Core(TM) i7-10750H CPU @ 2.60GHz (6 cores / 12 virtual CPUs).
+
+* ZIP generation:
+
+| Timing | Action                                                                     |
+| ------ | -------------------------------------------------------------------------- |
+|  6.1 s | Multithreaded (12 vCPUs) generation of [489 MB SOZip-enabled file](https://download.osgeo.org/gdal/data/sozip/nz-building-outlines.gpkg.zip) from a 1.6 GB uncompresssed GeoPackage file with<br>``sozip nz-building-outlines.gpkg.zip nz-building-outlines.gpkg`` |
+|  36 s  | Single threaded compression of same file to 480 MB regular ``zip`` utility with<br>``zip nz-building-outlines-regular.gpkg.zip nz-building-outlines.gpkg`` |
+
+* Bulk reading: Multithreaded ingestion (4 vCPUs) of 3.2 million features with Arrow Array interface
+
+| Timing | Action                                                                     |
+| ------ | -------------------------------------------------------------------------- |
+|  1.2 s | from SOZip-compressed GeoPackage file with<br>``bench_ogr_batch nz-building-outlines.gpkg.zip`` |
+|  0.7 s | from uncompressed GeoPackage file with<br>``bench_ogr_batch nz-building-outlines.gpkg`` |
+
+* Subsetting: Extraction of 66,377 features with a spatial filter
+
+| Timing | Action                                                                     |
+| ------ | -------------------------------------------------------------------------- |
+|  1.2 s | from SOZip-compressed GeoPackage file with<br>``ogr2ogr out.gpkg nz-building-outlines.gpkg.zip -spat 1740000 5910000 1750000 5920000`` |
+|  1.1 s | from uncompressed GeoPackage file with<br>``ogr2ogr out.gpkg nz-building-outlines.gpkg -spat 1740000 5910000 1750000 5920000`` |
+
+* Extraction of one feature from its identifier:
+
+| Timing | Action                                                                     |
+| ------ | -------------------------------------------------------------------------- |
+|  45 ms | from SOZip-compressed GeoPackage file with<br>``ogr2ogr out.gpkg nz-building-outlines.gpkg.zip -fid 1000000`` |
+|  44 ms | from uncompressed GeoPackage file with<br>``ogr2ogr out.gpkg nz-building-outlines.gpkg -fid 1000000`` |
 
 # Social media
 
