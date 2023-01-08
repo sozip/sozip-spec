@@ -22,7 +22,9 @@ capability.
 
 # Software implementations
 
-- C/C++ [GDAL](https://gdal.org)
+- [![GDAL](images/gdalicon.png)](https://gdal.org): C/C++ open source geospatial library.
+  Try out its [sozip branch](https://github.com/rouault/gdal/tree/sozip), pending
+  future inclusion in its master branch.
 - Python [sozipfile](https://github.com/sozip/sozipfile)
 
 See [Annex A: Software implementations](https://github.com/sozip/sozip-spec/blob/master/sozip_specification.md#annex-a-software-implementations)

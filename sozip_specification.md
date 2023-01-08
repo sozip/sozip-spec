@@ -259,7 +259,7 @@ Specification of fields:
 ## GDAL (C/C++ library)
 
 The [sozip](https://github.com/rouault/gdal/tree/sozip) development branch
-of [GDAL](https://gdal.org) contains:
+of [![GDAL](images/gdalicon.png)](https://gdal.org) contains:
 
 * a ``CPLAddFileInZip()`` C function that can compress a file and add it to an
   new or existing ZIP file, and enable the SOZip optimization when relevant.
