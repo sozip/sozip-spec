@@ -94,8 +94,8 @@ SOZip implementation, etc., let us know!
 
 ## Social media
 
-Find us on [![Twitter](images/32px-Twitter-logo.svg.png)](https://twitter.com/sozipOrg) and
-[![Mastodon](images/Mastodon_Logotype_(Simple).png)](https://fosstodon.org/@sozip)
+Find us on [![Twitter](../images/32px-Twitter-logo.svg.png)](https://twitter.com/sozipOrg) and
+[![Mastodon](../images/Mastodon_Logotype_(Simple).png)](https://fosstodon.org/@sozip)
 
 ## Credits
 
