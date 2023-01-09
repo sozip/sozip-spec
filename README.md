@@ -76,6 +76,15 @@ laptop running a Intel(R) Core(TM) i7-10750H CPU @ 2.60GHz (6 cores / 12 virtual
 |  45 ms | from SOZip-compressed GeoPackage file with<br>``ogr2ogr out.gpkg nz-building-outlines.gpkg.zip -fid 1000000`` |
 |  44 ms | from uncompressed GeoPackage file with<br>``ogr2ogr out.gpkg nz-building-outlines.gpkg -fid 1000000`` |
 
+# How to contribute ?
+
+We welcome contributions to this specification as [issues](https://github.com/sozip/sozip-spec/issues),
+[pull requests](https://github.com/sozip/sozip-spec/pulls) or
+[discussions](https://github.com/sozip/sozip-spec/discussions).
+
+If you use SOZip or plan to use it for your data delivery, or consider doing a
+SOZip implementation, etc., let us know!
+
 # Social media
 
 Find me on [![Twitter](images/32px-Twitter-logo.svg.png)](https://twitter.com/sozipOrg) and
