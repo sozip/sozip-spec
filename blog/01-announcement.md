@@ -70,8 +70,8 @@ Examples of SOZip-enabled files can be found in the
 ## Performance
 
 SOZip is efficient:
-- Overhead of using file from a SOZip archive, compared to using it uncompressed,
-  is in the order of 10%  for common read operations.
+- The overhead of using a file from a SOZip archive, compared to using it uncompressed,
+  is of the order of 10%  for common read operations.
 - Generation of a SOZip file can be much faster than regular ZIP generation when
   using multithreading.
 - SOZip files are typically only ~ 5% larger than regular ZIPs (dependent on
