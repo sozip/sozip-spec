@@ -42,7 +42,7 @@ feature by its identifier, etc.
 ## Software implementations
 
 - [![GDAL](../images/gdalicon.png)](https://gdal.org) (C/C++ open source library):
-  provides a full featured implementation providing a
+  provides a full featured [implementation](https://github.com/OSGeo/gdal/pull/7042) providing a
   ``sozip`` command line utility to create SOZip-enabled files, append new files
   to them, validate them, reprocess regular ZIP files as SOZip-enabled, etc.
   As well as an updated [/vsizip/](https://gdal.org/user/virtual_file_systems.html#vsizip-zip-archives)
