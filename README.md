@@ -55,7 +55,7 @@ laptop running a Intel(R) Core(TM) i7-10750H CPU @ 2.60GHz (6 cores / 12 virtual
 |  6.1 s | Multithreaded (12 vCPUs) generation of [489 MB SOZip-enabled file](https://download.osgeo.org/gdal/data/sozip/nz-building-outlines.gpkg.zip) from a 1.6 GB uncompresssed GeoPackage file with<br>``sozip nz-building-outlines.gpkg.zip nz-building-outlines.gpkg`` |
 |  36 s  | Single threaded compression of same file to 480 MB regular ``zip`` utility with<br>``zip nz-building-outlines-regular.gpkg.zip nz-building-outlines.gpkg`` |
 
-* Bulk reading: Multithreaded ingestion (4 vCPUs) of 3.2 million features with Arrow Array interface
+* Bulk reading: Multithreaded extraction (4 vCPUs) of 3.2 million features with Arrow Array interface
 
 | Timing | Action                                                                     |
 | ------ | -------------------------------------------------------------------------- |
