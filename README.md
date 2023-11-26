@@ -85,6 +85,10 @@ We welcome contributions to this specification as [issues](https://github.com/so
 If you use SOZip or plan to use it for your data delivery, or consider doing a
 SOZip implementation, etc., let us know!
 
+# Datasets available as SOZip
+
+* [TUDelft3D](https://3d.bk.tudelft.nl/) delivers the [3DBAG](https://docs.3dbag.nl/en/) data, an open 3D building dataset, for the whole of the Netherlands, 108 GB uncompressed, as a 18.8 GB large GeoPackage: https://3dbag.nl/en/download
+
 # Social media
 
 Find me on [![Mastodon](images/Mastodon_Logotype_(Simple).png)](https://fosstodon.org/@sozip)
