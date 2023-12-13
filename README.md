@@ -88,6 +88,7 @@ SOZip implementation, etc., let us know!
 # Datasets available as SOZip
 
 * [TUDelft3D](https://3d.bk.tudelft.nl/) delivers the [3DBAG](https://docs.3dbag.nl/en/) data, an open 3D building dataset, for the whole of the Netherlands, 108 GB uncompressed, as a 18.8 GB large GeoPackage: https://3dbag.nl/en/download
+* [Raw Data API](Raw Data API), from Humanitarian OpenStreetMap Team (HOTOSM), now [uses SOZip](https://github.com/hotosm/raw-data-api#introduction-of-sozip) when you download .zip files through it.
 
 # Social media
 
