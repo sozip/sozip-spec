@@ -23,8 +23,7 @@ capability.
 # Software implementations
 
 - [![GDAL](images/gdalicon.png)](https://gdal.org): C/C++ open source geospatial library.
-  Try out its [sozip branch](https://github.com/rouault/gdal/tree/sozip), pending
-  future inclusion in its master branch.
+  Reading & writing capabilities are included since [GDAL](https://gdal.org) 3.7.0.
 - Python [sozipfile](https://github.com/sozip/sozipfile) module: drop-in replacement
   for standard ``zipfile`` module, creating and reading SOZip-enabled files.
 
