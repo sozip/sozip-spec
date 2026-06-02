@@ -26,6 +26,8 @@ capability.
   Reading & writing capabilities are included since [GDAL](https://gdal.org) 3.7.0.
 - Python [sozipfile](https://github.com/sozip/sozipfile) module: drop-in replacement
   for standard ``zipfile`` module, creating and reading SOZip-enabled files.
+- [unxed/zip](https://github.com/unxed/zip), powerfull zip archive support library in golang.
+- [zipper](https://github.com/unxed/zipper), cross platform CLI archiver exposing `unxed/zip` possibilities.
 
 See [Annex A: Software implementations](https://github.com/sozip/sozip-spec/blob/master/sozip_specification.md#annex-a-software-implementations)
 for more details.
